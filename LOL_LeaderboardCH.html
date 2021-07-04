@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/mystyles.css">
+
+  <title>Leaderboard</title>
+
+
+
+  <script>
+    var webSocket = new WebSocket('ws://localhost:8888/LeaderboardCH');
+
+    function mycomparator(a, b) {
+      return parseInt(b.leaguePoints, 10) - parseInt(a.leaguePoints, 10);
+    }
+
+
+    webSocket.onopen = function (event) {
+      onOpenLOL(event)
+    };
+    webSocket.onmessage = function (event) {
+      onMessageLOL(event)
+    };
+
+    function refresh() {
+      var table = document.getElementById("printLeaderBoard").getElementsByTagName('tbody')[0];
+
+
+      table.parentNode.removeChild(table);
+
+      var tbody = document.createElement("tbody");
+      document.getElementById("printLeaderBoard").appendChild(tbody);
+
+      let region = document.getElementById("regionSelector").value;
+      if (location.pathname.split("/").slice(-1) == "LOL_LeaderboardCH.html") {
+        webSocket.send('{"region": "' + region + '", "game": "lol"}');
+      }
+      else webSocket.send('{"region": "' + region + '", "game": "tft"}');
+
+    }
+
+
+    function onOpenLOL(event) {
+      if (location.pathname.split("/").slice(-1) == "LOL_LeaderboardCH.html") {
+        document.getElementById("oauth").remove();
+        document.getElementById("logout").remove();
+        webSocket.send('{"region": "euw1", "game": "lol"}')
+      }
+      else {
+        document.getElementById("oauth").innerHTML = "<a class='btn btn-primary' href='http://localhost:8888/login'>Save in GoogleSpreadsheets</a>";
+        document.getElementById("logout").innerHTML = "<a class='btn btn-primary' href = 'https://mail.google.com/mail/u/0/?logout&hl=en'>Logout</a>"
+        webSocket.send('{"region": "euw1", "game": "tft"}')
+      }
+    }
+
+
+
+    function onMessageLOL(event) {
+      let array = JSON.parse(event.data);
+      array.sort(mycomparator);
+
+      let cnt = 0;
+      var table = document.getElementById("printLeaderBoard").getElementsByTagName('tbody')[0];
+
+      $(array.slice(0, 50)).each(function (x, y) {
+
+        var row = table.insertRow(cnt);
+        if (cnt == 0) row.classList.add('riga_primo');
+        else if (cnt == 1) row.classList.add('riga_secondo');
+        else if (cnt == 2) row.classList.add('riga_terzo');
+        else if (cnt % 2 == 1) row.classList.add('riga_dispari');
+        else row.classList.add('riga_pari');
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+        var cell6 = row.insertCell(5);
+
+        cell1.innerHTML = cnt + 1;
+        cell2.innerHTML = y.leaguePoints;
+        cell3.innerHTML = y.summonerName;
+        cell4.innerHTML = "C1";
+        cell5.innerHTML = y.wins + "/" + y.losses;
+        cell6.innerHTML = Number((y.wins / y.losses).toFixed(2));
+        cnt++;
+      });
+      //webSocket.close();
+    }
+  </script>
+
+
+
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-sm navbar-light bg-light fix">
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-center align-items-center" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active badge">
+          <!--<a class="nav-link" href="fruitPie.html"><img src="./images/method-draw-image.svg" alt="RPP"></a>-->
+          <a class="nav-link" href="index.html"><span class="full-text">Homepage</span><span
+              class="short-text">RPP</span></a>
+        </li>
+        <li class="nav-item dropdown badge">
+          <a class="nav-link dropdown-toggle" href="LOL.html" id="navbarDropdownMenuLink" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="full-text">League Of Legends</span><span class="short-text">LOL</span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="LOL.html">Player review</a>
+            <a class="dropdown-item" href="LOL_LeaderboardCH.html">Leaderboard</a>
+          </div>
+        </li>
+        <li class="nav-item badge">
+          <a class="nav-link" href="LOR.html"><span class="full-text">Legends Of Runeterra</span><span
+              class="short-text">LOR</span></a>
+        </li>
+        <li class="nav-item dropdown badge">
+          <a class="nav-link dropdown-toggle" href="TFT.html" id="navbarDropdownMenuLink" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="full-text">TeamFight Tactics</span><span class="short-text">TFT</span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="TFT.html">Player review</a>
+            <a class="dropdown-item" href="TFT_LeaderBoardCH.html">Leaderboard</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <main style="background-color: rgb(14, 4, 14);">
+    <div id="oauth"
+      style="vertical-align: middle; display: table-cell; text-align: center; display: flex; justify-content: center; align-items: center; padding-top: 50px;">
+    </div>
+    <div id="logout"
+      style="vertical-align: middle; display: table-cell; text-align: center; display: flex; justify-content: center; align-items: center; padding-top: 50px;">
+    </div>
+
+
+
+
+    <div class="container" style="padding-top: 50px;">
+      <div class="row">
+        <div id="refresh" class="col-6 col-md-6 col-sm-6 center_box">
+          
+          <select id="regionSelector" name="region"
+            class="custom-select my-1 mr-sm-2" id="RegionSelector"
+            style="background-color: #160220; color: white;">
+            <option value="euw1">EUW1</option>
+            <option value="br1">BR1</option>
+            <option value="eun1">EUN1</option>
+            <option value="jp1">JP1</option>
+            <option value="kr">KR</option>
+            <option value="la1">LA1</option>
+            <option value="la2">LA2</option>
+            <option value="na1">NA1</option>
+            <option value="oc1">OC1</option>
+            <option value="ru">RU</option>
+            <option value="tr1">TR1</option>
+          </select>
+        </div>
+
+        <div class="col-6 col-md-6 col-sm-6 center_box buttonForm">
+          <button type="button" id="btn-submit" class=" btn btn-light btn-primary" data-mdb-ripple-color="dark"
+            style="background-color: #160220; color: white;" onclick="refresh()">Search</button>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="fixtable">
+      <table id="printLeaderBoard" class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Points</th>
+            <th scope="col">Name</th>
+            <th scope="col">Rank</th>
+            <th scope="col">Wins/Losses</th>
+            <th scope="col">Win rate</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+
+
+
+
+  <footer>
+    <div class="container mt-4 pt-3">
+      <div class="row">
+        <div class="col-6 col-md-6 col-xl-3">
+          <h2>Project</h2>
+          <ul>
+            <li>LTW</li>
+            <li>RDC</li>
+          </ul>
+        </div> <!-- end column -->
+        <div class="col-6 col-md-6 col-xl-3">
+          <h2>Functions</h2>
+          <ul>
+            <li>Match list</li>
+            <li>Leaderboard</li>
+          </ul>
+        </div> <!-- end column -->
+        <div class="col-6 col-md-6 col-xl-3">
+          <h2>Students</h2>
+          <ul>
+            <li>Riccardo Puccetti</li>
+            <li>Ayrton Leyva Saldana</li>
+          </ul>
+        </div> <!-- end column -->
+        <div class="col-6 col-md-6 col-xl-3">
+          <h2>About Us</h2>
+          <img src="./images/method-draw-image.svg" alt="logo">
+        </div> <!-- end column -->
+      </div><!-- end row -->
+    </div><!-- end container -->
+  </footer>
+
+
+
+  <!-- jQuery first then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

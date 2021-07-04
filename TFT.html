@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- jQuery first then Bootstrap JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="css/mdb.min.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/mystyles.css">
+  <title>TFT</title>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-sm navbar-light bg-light fix">
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-center align-items-center" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active badge">
+          <!--<a class="nav-link" href="fruitPie.html"><img src="./images/method-draw-image.svg" alt="RPP"></a>-->
+          <a class="nav-link" href="index.html"><span class="full-text">Homepage</span><span
+              class="short-text">RPP</span></a>
+        </li>
+        <li class="nav-item dropdown badge">
+          <a class="nav-link dropdown-toggle" href="LOL.html" id="navbarDropdownMenuLink" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="full-text">League Of Legends</span><span class="short-text">LOL</span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="LOL.html">Player review</a>
+            <a class="dropdown-item" href="LOL_LeaderboardCH.html">Leaderboard</a>
+          </div>
+        </li>
+        <li class="nav-item badge">
+          <a class="nav-link" href="LOR.html"><span class="full-text">Legends Of Runeterra</span><span
+              class="short-text">LOR</span></a>
+        </li>
+        <li class="nav-item dropdown badge">
+          <a class="nav-link dropdown-toggle" href="TFT.html" id="navbarDropdownMenuLink" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="full-text">TeamFight Tactics</span><span class="short-text">TFT</span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="TFT.html">Player review</a>
+            <a class="dropdown-item" href="TFT_LeaderBoardCH.html">Leaderboard</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <main style="background-color: rgb(14, 4, 14);">
+
+    <div class="bg-image d-flex justify-content-center align-items-center" style="
+    background-image: url('./images/teamfight-tactics-82652.jpg');
+    background-repeat: no-repeat;
+    height:40vh;
+    background-position:center;
+    ">
+      <div class="mask" style=" background-color:rgba(0,0,0,0.6)">
+        <div class="d-flex justify-content-center align-items-center h-100">
+
+
+          <!-- Navbar -->
+          <nav class="navbar navbar-expand-lg navbar-dark riquadro">
+            <!-- Container wrapper -->
+            <div class="container-fluid">
+
+              <!-- Collapsible wrapper -->
+              <div class="w-auto">
+
+                <!-- Dropdown -->
+                <select id="regionSelector" name="region" class="custom-select my-1 mr-sm-2" id="RegionSelector"
+                  style="background-color: #160220; color: white;">
+                  <option value="euw1">EUW1</option>
+                  <option value="br1">BR1</option>
+                  <option value="eun1">EUN1</option>
+                  <option value="jp1">JP1</option>
+                  <option value="kr">KR</option>
+                  <option value="la1">LA1</option>
+                  <option value="la2">LA2</option>
+                  <option value="na1">NA1</option>
+                  <option value="oc1">OC1</option>
+                  <option value="ru">RU</option>
+                  <option value="tr1">TR1</option>
+                </select>
+
+                <!-- Search -->
+
+                <input type="search" spellcheck="false" id="summonerName" name="summoner" class="form-control"
+                  placeholder="Summoner name" aria-label="Search" style="background-color: #160220; color: white;">
+
+                <div class=" buttonForm">
+                  <button type="button" id="btn-submit" class=" btn btn-light btn-primary" data-mdb-ripple-color="dark"
+                    style="background-color: #160220; color: white;">Search</button>
+                </div>
+              </div>
+
+            </div>
+        </div>
+        <!-- Container wrapper -->
+        </nav>
+        <!-- Navbar -->
+
+      </div>
+    </div>
+
+    <!--fine maschera-->
+    <!-- stampa-->
+
+    <div class="container" style="padding-top: 50px;">
+      <div class="row" id="rowLeague">
+        <div id="summ" class="col-6 col-md-3 col-sm-6 center_box">
+        </div>
+        <div id="piespace" class="col-6 col-md-3 col-sm-6"
+          style="vertical-align: middle; display: table-cell; text-align: center; display: flex; justify-content: center; align-items: center;">
+        </div>
+
+        <div id="emblem" class="col-6 col-md-3 col-sm-6"
+          style="vertical-align: middle; display: table-cell; text-align: center; color: white; display: flex; justify-content: center; align-items: center;">
+
+        </div>
+        <div id="rank" class="col-6 col-md-3 col-sm-6 center_box">
+
+        </div>
+
+      </div>
+    </div>
+
+
+
+
+
+
+    <div class="container" style="padding-top: 50px;">
+      <div class="row  center_box">
+        <div class="col-8 col-md-8 col-sm-10" id="placement">
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    <div class="container" style="padding-top: 50px;">
+      <div id="row0" class="row">
+        <div id="col00" class="col center_box">
+        </div>
+        <div id="col01" class="col center_box">
+        </div>
+        <div id="col02" class="col center_box">
+        </div>
+      </div>
+
+      <div id="row1" class="row">
+        <div id="col10" class="col center_box">
+        </div>
+        <div id="col11" class="col center_box">
+        </div>
+        <div id="col12" class="col center_box">
+        </div>
+      </div>
+
+      <div id="row2" class="row">
+        <div id="col20" class="col center_box">
+        </div>
+        <div id="col21" class="col center_box">
+        </div>
+        <div id="col22" class="col center_box">
+        </div>
+      </div>
+
+      <div id="row3" class="row">
+        <div id="col30" class="col center_box">
+        </div>
+        <div id="col31" class="col center_box">
+        </div>
+        <div id="col32" class="col center_box">
+        </div>
+      </div>
+
+      <div id="row4" class="row">
+        <div id="col40" class="col center_box">
+        </div>
+        <div id="col41" class="col center_box">
+        </div>
+        <div id="col42" class="col center_box">
+        </div>
+      </div>
+
+      <!-- fine stampa-->
+
+
+
+  </main>
+
+
+
+
+  <footer>
+    <div class="container mt-4 pt-3">
+      <div class="row">
+        <div class="col-6 col-md-6 col-xl-3">
+          <h2>Project</h2>
+          <ul>
+            <li>LTW</li>
+            <li>RDC</li>
+          </ul>
+        </div> <!-- end column -->
+        <div class="col-6 col-md-6 col-xl-3">
+          <h2>Functions</h2>
+          <ul>
+            <li>Match list</li>
+            <li>Leaderboard</li>
+          </ul>
+        </div> <!-- end column -->
+        <div class="col-6 col-md-6 col-xl-3">
+          <h2>Students</h2>
+          <ul>
+            <li>Riccardo Puccetti</li>
+            <li>Ayrton Leyva Saldana</li>
+          </ul>
+        </div> <!-- end column -->
+        <div class="col-6 col-md-6 col-xl-3">
+          <h2>About Us</h2>
+          <img src="./images/method-draw-image.svg" alt="logo">
+        </div> <!-- end column -->
+      </div><!-- end row -->
+    </div><!-- end container -->
+  </footer>
+
+</body>
+
+
+
+<script>
+  $(document).ready(function () {
+    $("#btn-submit").click(function () {
+      var player = document.getElementById("summonerName").value;
+      if (player == '') alert("Empty summoner name doesn't exists");
+      else {
+        $.post('http://localhost:8888/TFT.html/Data?summoner=' + player + "&region=" + $("#regionSelector").val(), function (result) {
+          if (Object.keys(result).length == 1) {
+            if (JSON.stringify(result.status).includes("404")) { alert("Player not found"); }
+            else if (JSON.stringify(result.status).includes("422")) { alert("Summoner didn't play enough matches"); }
+            else if (JSON.stringify(result.status).includes("204")) { alert("Summoner didn't play last season"); }
+          }
+
+          else {
+            $("#rowLeague").addClass("riquadro_league");
+            $("#rowLeague").css("textShadow", "0 0 10px #000000, 0 0 5px #000000, 0 0 5px #000000");
+            $("#placement").addClass("riquadro_league");
+
+
+            //posiziona risultati nelle divisioni
+            $("#summ").html("<div><h5>" + result[0].name + "</h5><p>LV: " + result[0].summonerlevel + "</p></div>");
+
+            //chart
+            $("#piespace").html('<canvas id="piechart"></canvas>');
+            var ctx = document.getElementById('piechart');
+            new Chart(ctx, {
+              type: 'doughnut',
+              data: {
+                labels: [
+                  'Wins',
+                  'Losses',
+                ],
+                datasets: [{
+                  label: 'My First Dataset',
+                  data: [result[1].wins, result[1].losses],
+                  backgroundColor: [
+                    '#0000ff',
+                    '#ff0000'
+                  ],
+                  hoverOffset: 4
+                }]
+              },
+              options: {
+                legend: {
+                  display: false,
+                }
+              }
+            });
+
+
+
+
+
+            //Display emblem            
+            switch (result[1].tier) {
+              case "IRON":
+                $("#emblem").html('<img src="./images/Emblems/Emblem_Iron.png" style="height: 130px; width: 130px;" alt="IRON">');
+                break;
+              case "BRONZE":
+                $("#emblem").html('<img src="./images/Emblems/Emblem_Bronze.png" style="height: 130px; width: 130px;" alt="BRONZE">');
+                break;
+              case "SILVER":
+                $("#emblem").html('<img src="./images/Emblems/Emblem_Silver.png" style="height: 130px; width: 130px;" alt="SILVER">');
+                break;
+              case "GOLD":
+                $("#emblem").html('<img src="./images/Emblems/Emblem_Gold.png" style="height: 130px; width: 130px;" alt="GOLD">');
+                break;
+              case "PLATINUM":
+                $("#emblem").html('<img src="./images/Emblems/Emblem_Platinum.png" style="height: 130px; width: 130px;" alt="PLATINUM">');
+                break;
+              case "DIAMOND":
+                $("#emblem").html('<img src="./images/Emblems/Emblem_Diamond.png" style="height: 130px; width: 130px;" alt="DIAMOND">');
+                break;
+              case "MASTER":
+                $("#emblem").html('<img src="./images/Emblems/Emblem_Master.png" style="height: 130px; width: 130px;" alt="MASTER">');
+                break;
+              case "GRANDMASTER":
+                $("#emblem").html('<img src="./images/Emblems/Emblem_Grandmaster.png" style="height: 130px; width: 130px;" alt="GRANDMASTER">');
+                break;
+              case "CHALLENGER":
+                $("#emblem").html('<img src="./images/Emblems/Emblem_Challenger.png" style="height: 130px; width: 130px;" alt="CHALLENGER">');
+                break;
+              default:
+                alert("Something went wrong!");
+            }
+
+
+            $("#rank").html("<div><p>Tier: " + result[1].tier + "</p><p>Division: " + result[1].rank + "</p><p>LP: " + result[1].leaguepoints + "</p></div>");
+
+            //placement chart
+            let arr = [], ind = [];
+            for (let x = 0; x < Object.keys(result[4]).length; x++) {
+              arr.push(result[4][x].placement);
+              ind.push("Game" + (x + 1));
+            }
+
+            //chart
+            $("#placement").html('<canvas id="position" style="width: 600px;"></canvas>');
+            var ctx = document.getElementById('position');
+            new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: ind,
+                datasets: [{
+                  label: 'Placement',
+                  data: arr,
+                  fill: false,
+                  borderColor: '#ff0000',
+                  pointBackgroundColor: '#ff0000',
+                  tension: 0.1,
+                  backgroundColor: '#0000ff'
+                }],
+              },
+              options: {
+                legend: {
+                  labels: {
+                    fontColor: 'white'
+                  }
+                },
+                scales: {
+                  yAxes: [{
+                    ticks: {
+                      fontColor: 'white',
+                      reverse: true
+                    }
+                  }],
+                  xAxes: [{
+                    ticks: {
+                      fontColor: 'white'
+                    }
+                  }]
+                }
+              },
+            });
+
+
+            //print table##########################################à
+            for (var i = 0, j = 4; i < 5; i++, j--) {
+              $("#row" + i).css("textShadow", "0 0 10px #000000, 0 0 5px #000000, 0 0 5px #000000");
+
+              var outcome;
+              switch (result[2][i].placement) {
+                case 1: outcome = "WIN";
+                  $("#col" + i + "0").html("<div><p style='color:#e0c218;'>" + outcome + "</p><p>Placement: 1</p></div>");
+                  $("#row" + i).removeClass('posto2 posto3 posto4 posto8');
+                  $("#row" + i).addClass('posto1');
+                  break;
+                case 2: outcome = "WIN";
+                  $("#col" + i + "0").html("<div><p style='color:#818181;'>" + outcome + "</p><p>Placement: 2</p></div>");
+                  $("#row" + i).removeClass('posto1 posto3 posto4 posto8');
+                  $("#row" + i).addClass('posto2');
+                  break;
+                case 3: outcome = "WIN";
+                  $("#col" + i + "0").html("<div><p style='color:#cd7f32;'>" + outcome + "</p><p>Placement: 3</p></div>");
+                  $("#row" + i).removeClass('posto1 posto2 posto4 posto8');
+                  $("#row" + i).addClass('posto3');
+                  break;
+                case 4: outcome = "WIN";
+                  $("#col" + i + "0").html("<div><p style='color:#0000ff;'>" + outcome + "</p><p>Placement: 4</p></div>");
+                  $("#row" + i).removeClass('posto1 posto2 posto3 posto8');
+                  $("#row" + i).addClass('posto4');
+                  break;
+                default: outcome = "LOSE";
+                  $("#col" + i + "0").html("<div><p style='color:#ff0000;'>" + outcome + "</p><p>Placement: " + result[2][i].placement + "</p></div>");
+                  $("#row" + i).removeClass('posto1 posto2 posto3 posto4');
+                  $("#row" + i).addClass('posto8');
+              }
+
+
+              $("#col" + i + "1").html("<div><p>LV: " + result[2][i].level + "</p><p>Kills: " + result[2][i].players_eliminated + "</p></div>");
+              $("#col" + i + "2").html("<div><p>Last round: " + result[2][i].last_round + "</p><p style='color:#a38b02;'>Gold left: " + result[2][i].gold_left + "</p><p>Duration: " + Number((result[3][i].game_length / 60).toFixed(2)) + "</p></div>");
+            }
+          }
+        });
+      }
+    });
+  });
+</script>
+
+</html>
